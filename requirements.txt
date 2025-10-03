@@ -1,0 +1,19 @@
+# 🤖 BiP Bot v2.0 - Python Bağımlılıkları
+# SQLite veritabanı ile güçlendirilmiş etkinlik yönetim sistemi
+
+# Ana uygulama bağımlılıkları
+Flask==3.1.2
+Flask-CORS==6.0.1
+qrcode==8.2
+Pillow==11.3.0
+
+# Production bağımlılıkları
+gunicorn==23.0.0
+
+# Geliştirme bağımlılıkları (isteğe bağlı)
+# pytest==8.3.3
+# black==24.10.0
+# flake8==7.1.1
+
+# Not: pandas artık gerekli değil - SQLite kullanıyoruz
+# pandas==2.3.3

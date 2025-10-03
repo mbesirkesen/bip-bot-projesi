@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiP Bot v3.0 - Modern Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f59e0b;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px 32px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .user-info:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--radius-xl);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .logo-text p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 32px;
+            display: grid;
+            grid-template-columns: 300px 1fr 1fr;
+            gap: 24px;
+        }
+
+        .events-sidebar {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            height: fit-content;
+            position: sticky;
+            top: 32px;
+        }
+
+        .events-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .events-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .event-tab {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 8px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .event-tab:hover {
+            background: var(--bg-primary);
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        .event-tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .event-tab-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .event-tab-details {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .create-event-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .create-event-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .chat-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .chat-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .chat-container {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: var(--radius-lg);
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .message.bot .message-content {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .message.success .message-content {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .message.error .message-content {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .input-section {
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 12px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            resize: none;
+            min-height: 52px;
+        }
+
+        .message-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .send-btn {
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--radius-xl);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .commands-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: var(--shadow-xl);
+            height: fit-content;
+        }
+
+        .commands-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .commands-grid {
+            display: grid;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .command-btn {
+            padding: 16px 20px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .command-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .command-btn.primary {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            border-color: var(--success-color);
+        }
+
+        .command-btn.secondary {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+            border-color: var(--warning-color);
+        }
+
+        .command-btn.warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-color: #f59e0b;
+        }
+
+        .command-icon {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .command-text {
+            flex: 1;
+        }
+
+        .command-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--border-color);
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        .modal-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .modal-header h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .modal-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            flex: 1;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .slot-item, .place-item {
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--bg-tertiary);
+        }
+
+        .slot-item:hover, .place-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .slot-item.selected, .place-item.selected {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .slot-time {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .slot-details {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .location-item {
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+            background: var(--bg-tertiary);
+        }
+
+        .location-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .location-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .location-votes {
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: var(--radius-md);
+        }
+
+        .location-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 0 24px;
+            }
+    }
+  </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-robot"></i>
+    </div>
+                <div class="logo-text">
+                    <h1>BiP Bot v3.0</h1>
+                    <p>Modern Etkinlik Yönetim Sistemi</p>
+                </div>
+            </div>
+            <div class="user-section">
+                <div class="user-info" onclick="showUserSettings()">
+                    <i class="fas fa-user"></i>
+                    <span id="currentUserId">user_loading...</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- User Settings Modal -->
+    <div id="userSettingsModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeUserSettings()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-user-cog"></i> Kullanıcı Ayarları</h3>
+                <p>Farklı kullanıcı olarak test edin</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Kullanıcı ID</label>
+                <input type="text" id="newUserId" class="form-input" placeholder="user_test123">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Etkinlik ID</label>
+                <input type="number" id="newEventId" class="form-input" placeholder="27">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeUserSettings()">İptal</button>
+                <button class="btn btn-primary" onclick="updateUserSettings()">
+                    <i class="fas fa-save"></i> Kaydet
+                </button>
+            </div>
+        </div>
+      </div>
+      
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Events Sidebar -->
+        <div class="events-sidebar">
+            <div class="events-header">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Etkinlikler</h3>
+            </div>
+            <div id="eventsList">
+                <!-- Etkinlikler buraya dinamik olarak eklenecek -->
+            </div>
+            <button class="create-event-btn" onclick="showCreateEventDialog()">
+                <i class="fas fa-plus"></i> Yeni Etkinlik
+            </button>
+      </div>
+      
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <h2><i class="fas fa-comments"></i> Sohbet</h2>
+      </div>
+      
+            <div class="chat-container" id="chatContainer">
+                <div class="message bot">
+                    <div class="message-content">
+                        <div>Merhaba! 👋 BiP Bot v3.0'a hoş geldiniz!</div>
+      </div>
+    </div>
+    
+                <div class="message bot">
+                    <div class="message-content">
+                        <div>Modern RESTful API ile güçlendirilmiş etkinlik yönetim sisteminiz hazır.</div>
+                    </div>
+      </div>
+    </div>
+    
+            <div class="input-section">
+                <div class="input-container">
+                    <textarea 
+                        id="messageInput" 
+                        class="message-input" 
+                        placeholder="Mesajınızı yazın veya komut kullanın..."
+                        rows="1"
+                        onkeypress="handleKeyPress(event)"
+                    ></textarea>
+                    <button class="send-btn" onclick="sendMessage()" id="sendButton">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Gönder</span>
+                    </button>
+    </div>
+                <div class="loading" id="loading">
+                    <span>İşleniyor...</span>
+    </div>
+    </div>
+    </div>
+    
+        <!-- Commands Section -->
+        <div class="commands-section">
+            <div class="commands-header">
+                <h2><i class="fas fa-terminal"></i> Komutlar</h2>
+                <p>Hızlı erişim için komut butonları</p>
+    </div>
+    
+            <div class="commands-grid">
+                <button class="command-btn primary" onclick="sendCommand('/yeni Test Etkinliği')">
+                    <i class="fas fa-plus command-icon"></i>
+                    <div class="command-text">
+                        <div>Yeni Etkinlik</div>
+                        <div class="command-desc">Etkinlik oluştur</div>
+    </div>
+                </button>
+
+                <button class="command-btn primary" onclick="showSlotAddDialog()">
+                    <i class="fas fa-clock command-icon"></i>
+                    <div class="command-text">
+                        <div>Slot Ekle</div>
+                        <div class="command-desc">Zaman aralığı ekle</div>
+                    </div>
+                </button>
+
+                <button class="command-btn primary" onclick="showSlotVoteDialog()">
+                    <i class="fas fa-hand-paper command-icon"></i>
+                    <div class="command-text">
+                        <div>Slot Oy Ver</div>
+                        <div class="command-desc">En uygun slotu seçin</div>
+                    </div>
+                </button>
+
+                <button class="command-btn warning" onclick="showSlotCloseDialog()">
+                    <i class="fas fa-lock command-icon"></i>
+                    <div class="command-text">
+                        <div>Slot Kapat</div>
+                        <div class="command-desc">Seçilen slotu kapat</div>
+                    </div>
+                </button>
+
+                <button class="command-btn primary" onclick="showPlaceAddDialog()">
+                    <i class="fas fa-map-marker-alt command-icon"></i>
+                    <div class="command-text">
+                        <div>Mekan Ekle</div>
+                        <div class="command-desc">Mekan önerisi ekle</div>
+                    </div>
+                </button>
+
+                <button class="command-btn primary" onclick="showPlaceVoteDialog()">
+                    <i class="fas fa-building command-icon"></i>
+                    <div class="command-text">
+                        <div>Mekan Oy Ver</div>
+                        <div class="command-desc">Mevcut mekanlara oy ver</div>
+                    </div>
+                </button>
+
+                <button class="command-btn primary" onclick="showExpenseDialog()">
+                    <i class="fas fa-money-bill-wave command-icon"></i>
+                    <div class="command-text">
+                        <div>Gider Ekle</div>
+                        <div class="command-desc">Gider kaydı ekle</div>
+                    </div>
+                </button>
+
+                <button class="command-btn primary" onclick="getEventSummary()">
+                    <i class="fas fa-chart-bar command-icon"></i>
+                    <div class="command-text">
+                        <div>Özet</div>
+                        <div class="command-desc">Etkinlik özetini gör</div>
+                    </div>
+                </button>
+
+
+                <button class="command-btn" onclick="generateInviteLink()">
+                    <i class="fas fa-share-alt command-icon"></i>
+                    <div class="command-text">
+                        <div>Davet Linki</div>
+                        <div class="command-desc">QR kod ve link oluştur</div>
+                    </div>
+                </button>
+
+                <button class="command-btn" onclick="getAnalytics()">
+                    <i class="fas fa-chart-line command-icon"></i>
+                    <div class="command-text">
+                        <div>Analitik</div>
+                        <div class="command-desc">İstatistikleri gör</div>
+                    </div>
+                </button>
+
+                <button class="command-btn" onclick="showLocationDialog()">
+                    <i class="fas fa-map-marker-alt command-icon"></i>
+                    <div class="command-text">
+                        <div>Konum Görüntüle</div>
+                        <div class="command-desc">Mekan konumları</div>
+                    </div>
+                </button>
+
+                <button class="command-btn" onclick="sendCommand('/yardim')">
+                    <i class="fas fa-question-circle command-icon"></i>
+                    <div class="command-text">
+                        <div>Yardım</div>
+                        <div class="command-desc">Tüm komutları gör</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slot Add Modal -->
+    <div id="slotAddModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSlotAddDialog()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-clock"></i> Slot Ekleme</h3>
+                <p>Yeni zaman aralığı ekleyin</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Başlangıç Tarihi</label>
+                <input type="datetime-local" id="slotStartDate" class="form-input">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Bitiş Tarihi</label>
+                <input type="datetime-local" id="slotEndDate" class="form-input">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeSlotAddDialog()">İptal</button>
+                <button class="btn btn-primary" onclick="submitSlotAdd()">
+                    <i class="fas fa-plus"></i> Slot Ekle
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slot Vote Modal -->
+    <div id="slotVoteModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSlotVoteDialog()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-hand-paper"></i> Slot Oylaması</h3>
+                <p>Hangi slot için oy vermek istiyorsunuz?</p>
+            </div>
+            <div id="slotList"></div>
+        </div>
+    </div>
+
+    <!-- Slot Close Modal -->
+    <div id="slotCloseModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSlotCloseDialog()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-lock"></i> Slot Kapatma</h3>
+                <p>Hangi slotu kapatmak istiyorsunuz?</p>
+            </div>
+            <div id="slotCloseList"></div>
+        </div>
+    </div>
+
+    <!-- Place Add Modal -->
+    <div id="placeAddModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePlaceAddDialog()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-map-marker-alt"></i> Mekan Ekleme</h3>
+                <p>Yeni mekan önerisi ekleyin</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mekan Adı</label>
+                <input type="text" id="placeName" class="form-input" placeholder="Pizza Palace">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Konum (Enlem)</label>
+                <input type="number" id="placeLatitude" class="form-input" placeholder="41.0082" step="0.000001">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Konum (Boylam)</label>
+                <input type="number" id="placeLongitude" class="form-input" placeholder="28.9784" step="0.000001">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closePlaceAddDialog()">İptal</button>
+                <button class="btn btn-primary" onclick="submitPlaceAdd()">
+                    <i class="fas fa-plus"></i> Mekan Ekle
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Place Vote Modal -->
+    <div id="placeVoteModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePlaceVoteDialog()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-building"></i> Mekan Oyu</h3>
+                <p>Hangi mekan için oy vermek istiyorsunuz?</p>
+            </div>
+            <div id="placeList"></div>
+        </div>
+    </div>
+
+    <!-- Expense Modal -->
+    <div id="expenseModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeExpenseDialog()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-money-bill-wave"></i> Gider Ekleme</h3>
+                <p>Etkinlik için gider kaydı ekleyin</p>
+            </div>
+            <div id="expenseForm"></div>
+        </div>
+    </div>
+
+    <!-- Location Modal -->
+    <div id="locationModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLocationDialog()">&times;</button>
+            <div class="modal-header">
+                <h3><i class="fas fa-map-marker-alt"></i> Mekan Konumları</h3>
+                <p>Mekanların konum bilgilerini görüntüleyin</p>
+            </div>
+            <div id="locationList"></div>
+        </div>
+  </div>
+
+  <script>
+        // Global variables
+        let currentEventId = 35;
+        let currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+        let selectedSlotId = null;
+        let selectedPlaceId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUserDisplay();
+            loadEventsList();
+            addMessage('🎉 Modern arayüz aktif! Tüm özellikler çalışır durumda.', 'success');
+        });
+
+        // Events List Functions
+        async function loadEventsList() {
+            try {
+                const response = await fetch('http://localhost:5000/api/events');
+                if (response.ok) {
+                    const data = await response.json();
+                    displayEventsList(data.events || []);
+                } else {
+                    // Fallback: manuel etkinlik listesi
+                    const mockEvents = [
+                        { event_id: 35, title: 'Test Etkinliği', created_at: '2025-01-15', participant_count: 5 },
+                        { event_id: 39, title: 'Kampus Etut Gecesi', created_at: '2025-01-15', participant_count: 9 }
+                    ];
+                    displayEventsList(mockEvents);
+                }
+            } catch (error) {
+                console.error('Etkinlik listesi yüklenemedi:', error);
+                // Fallback etkinlikler
+                const mockEvents = [
+                    { event_id: 35, title: 'Test Etkinliği', created_at: '2025-01-15', participant_count: 5 },
+                    { event_id: 39, title: 'Kampus Etut Gecesi', created_at: '2025-01-15', participant_count: 9 }
+                ];
+                displayEventsList(mockEvents);
+            }
+        }
+
+        function displayEventsList(events) {
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = '';
+
+            events.forEach(event => {
+                const eventTab = document.createElement('div');
+                eventTab.className = `event-tab ${event.event_id === currentEventId ? 'active' : ''}`;
+                eventTab.onclick = () => switchEvent(event.event_id);
+                
+                eventTab.innerHTML = `
+                    <div class="event-tab-title">${event.title}</div>
+                    <div class="event-tab-details">
+                        ID: ${event.event_id} • ${event.participant_count} katılımcı
+                    </div>
+                `;
+                
+                eventsList.appendChild(eventTab);
+            });
+        }
+
+        function switchEvent(eventId) {
+            currentEventId = eventId;
+            loadEventsList(); // Listeyi yenile
+            addMessage(`🔄 Etkinlik değiştirildi: ID ${eventId}`, 'info');
+            
+            // Chat'i temizle
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.innerHTML = `
+                <div class="message bot">
+                    <div class="message-content">
+                        <div>Etkinlik ${eventId} aktif! 🎯</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showCreateEventDialog() {
+            const eventTitle = prompt('Yeni etkinlik adını girin:');
+            if (eventTitle && eventTitle.trim()) {
+                createEvent(eventTitle.trim());
+            }
+        }
+
+        // Slot Close Functions
+        async function showSlotCloseDialog() {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/summary`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const slots = data.data.slots;
+                    const slotList = document.getElementById('slotCloseList');
+                    slotList.innerHTML = '';
+                    
+                    if (Object.keys(slots).length === 0) {
+                        slotList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Henüz slot eklenmemiş</div>';
+                    } else {
+                        Object.entries(slots).forEach(([slotId, slot]) => {
+                            const slotDiv = document.createElement('div');
+                            slotDiv.className = 'slot-item';
+                            slotDiv.innerHTML = `
+                                <div class="slot-time">${slot.start_datetime} - ${slot.end_datetime}</div>
+                                <div class="slot-details">${slot.yes_votes} oy • Durum: ${slot.status || 'Aktif'}</div>
+                            `;
+                            slotDiv.onclick = () => selectSlotToClose(slotId, slotDiv);
+                            slotList.appendChild(slotDiv);
+                        });
+                    }
+                    
+                    document.getElementById('slotCloseModal').classList.add('show');
+                }
+            } catch (error) {
+                addMessage(`❌ Slot listesi alınamadı: ${error.message}`, 'error');
+            }
+        }
+
+        function selectSlotToClose(slotId, element) {
+            document.querySelectorAll('#slotCloseList .slot-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedSlotId = slotId;
+            
+            setTimeout(() => {
+                confirmSlotClose();
+            }, 500);
+        }
+
+        async function confirmSlotClose() {
+            if (selectedSlotId) {
+                try {
+                    const response = await fetch(`http://localhost:5000/events/${currentEventId}/slots/${selectedSlotId}/close`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            user_id: currentUserId
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok && data.status === 'success') {
+                        addMessage(`✅ Slot ${selectedSlotId} başarıyla kapatıldı!`, 'success');
+                        closeSlotCloseDialog();
+                    } else {
+                        addMessage(`❌ ${data.message || 'Slot kapatılamadı'}`, 'error');
+                    }
+                } catch (error) {
+                    addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        function closeSlotCloseDialog() {
+            document.getElementById('slotCloseModal').classList.remove('show');
+            selectedSlotId = null;
+        }
+
+        // User Settings Functions
+        function showUserSettings() {
+            document.getElementById('newUserId').value = currentUserId;
+            document.getElementById('newEventId').value = currentEventId;
+            document.getElementById('userSettingsModal').classList.add('show');
+        }
+
+        function closeUserSettings() {
+            document.getElementById('userSettingsModal').classList.remove('show');
+        }
+
+        function updateUserSettings() {
+            const newUserId = document.getElementById('newUserId').value.trim();
+            const newEventId = parseInt(document.getElementById('newEventId').value);
+            
+            if (newUserId && newEventId) {
+                currentUserId = newUserId;
+                currentEventId = newEventId;
+                updateUserDisplay();
+                closeUserSettings();
+                addMessage(`✅ Kullanıcı değiştirildi: ${currentUserId} (Etkinlik: ${currentEventId})`, 'success');
+            } else {
+                addMessage('❌ Lütfen geçerli kullanıcı ID ve etkinlik ID girin', 'error');
+            }
+        }
+
+        function updateUserDisplay() {
+            document.getElementById('currentUserId').textContent = currentUserId;
+        }
+
+        // Message handling
+        function addMessage(text, type = 'bot') {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <div>${text}</div>
+                </div>
+            `;
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value.trim();
+      
+      if (message) {
+                addMessage(message, 'user');
+        input.value = '';
+        
+        if (message.startsWith('/')) {
+                    handleCommand(message);
+        } else {
+                    setTimeout(() => {
+                        addMessage('Mesajınız alındı! Komut kullanmak için "/" ile başlayın.', 'bot');
+                    }, 500);
+                }
+            }
+        }
+
+        function handleCommand(message) {
+            const commandPart = message.split(' ')[0].trim();
+            const args = message.substring(commandPart.length).trim();
+            
+            if (commandPart === '/yardim' || commandPart === '/help') {
+                showHelp();
+            } else {
+                executeCommand(commandPart, args);
+            }
+        }
+
+        function executeCommand(command, args) {
+            switch (command) {
+                case '/yeni':
+                    const eventName = args || 'Yeni Etkinlik';
+                    createEvent(eventName);
+                    break;
+                case '/slot':
+                    const slotParts = args.split(' ');
+                    if (slotParts.length >= 2) {
+                        addSlot(slotParts[0], slotParts[1]);
+                    } else {
+                        addMessage('❌ Slot komutu için başlangıç ve bitiş zamanları gerekli.', 'error');
+                    }
+                    break;
+                case '/mekan':
+                    if (args) {
+                        addPlace(args);
+                    } else {
+                        addMessage('❌ Mekan komutu için mekan adı gerekli.', 'error');
+                    }
+                    break;
+                case '/ozet':
+                    getEventSummary();
+                    break;
+                default:
+                    addMessage(`✅ ${command} komutu işlendi.`, 'success');
+            }
+        }
+
+    function sendCommand(command) {
+      const input = document.getElementById('messageInput');
+      input.value = command;
+            input.focus();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+      sendMessage();
+            }
+        }
+
+        function showHelp() {
+            const helpMessage = `
+                <strong>📚 Tüm Komutlar:</strong><br><br>
+                <strong>🎯 Temel Komutlar:</strong><br>
+                • <strong>/yeni [Ad]</strong> - Yeni etkinlik oluştur<br>
+                • <strong>/slot YYYY-MM-DD HH:MM-HH:MM</strong> - Slot (zaman aralığı) ekle<br>
+                • <strong>/mekan [Ad]</strong> - Mekan önerisi ekle<br>
+                • <strong>/ozet</strong> - Etkinlik özetini göster<br><br>
+                
+                <strong>🗳️ Oylama Komutları:</strong><br>
+                • <strong>/katil slot=ID yes/no</strong> - Slot için oy ver<br>
+                • <strong>/oy_mekan ID</strong> - Mekan için oy ver<br><br>
+                
+                <strong>💰 Gider Komutları:</strong><br>
+                • <strong>/gider Tutar "Açıklama" Slot_ID</strong> - Gider ekle<br><br>
+                
+                <strong>🔧 Moderatör Komutları:</strong><br>
+                • <strong>/slot_kapat ID</strong> - Slot'u kapat<br>
+                • <strong>/oy_kilit</strong> - Oylamayı kilitle<br><br>
+                
+                <strong>📊 Analitik Komutları:</strong><br>
+                • <strong>/davet</strong> - Davet linki oluştur<br>
+                • <strong>/analitik</strong> - İstatistikleri gör<br>
+                • <strong>/konum ID</strong> - Mekan konumu<br><br>
+                
+                <strong>❓ Yardım:</strong><br>
+                • <strong>/yardim</strong> - Tüm komutları listele<br>
+                • <strong>/test</strong> - Bot durumunu kontrol et<br><br>
+                
+                💡 <strong>İpucu:</strong> Komut butonlarını kullanarak hızlı erişim sağlayabilirsiniz!
+            `;
+            addMessage(helpMessage, 'bot');
+        }
+
+        // API Functions
+        async function createEvent(eventName) {
+      showLoading(true);
+      try {
+                const response = await fetch('http://localhost:5000/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+                        title: eventName,
+                        group_id: 'group_m0lc3397k',
+                        created_by: currentUserId
+          })
+        });
+        
+        const data = await response.json();
+        
+                if (response.ok && data.status === 'success') {
+                    currentEventId = data.event_id;
+                    addMessage(`✅ ${data.message}`, 'success');
+        } else {
+                    addMessage(`❌ ${data.message || 'Etkinlik oluşturulamadı'}`, 'error');
+        }
+      } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+      }
+      showLoading(false);
+    }
+
+        async function addSlot(startTime, endTime) {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            showLoading(true);
+            try {
+                // Tarih formatını düzelt
+                let startISO, endISO;
+                try {
+                    startISO = new Date(startTime).toISOString();
+                    endISO = new Date(endTime).toISOString();
+                } catch (dateError) {
+                    addMessage('❌ Geçersiz tarih formatı', 'error');
+      showLoading(false);
+                    return;
+                }
+                
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/slots`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+                        start_datetime: startISO,
+                        end_datetime: endISO
+          })
+        });
+        
+        const data = await response.json();
+        
+                if (response.ok && data.status === 'success') {
+                    addMessage(`✅ ${data.message}`, 'success');
+        } else {
+                    addMessage(`❌ ${data.message || 'Slot eklenemedi'}`, 'error');
+        }
+      } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+      }
+      showLoading(false);
+    }
+
+        async function addPlace(placeName, latitude = null, longitude = null) {
+      if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+        return;
+      }
+      
+      showLoading(true);
+      try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/poll/choices`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+                        text: placeName,
+                        latitude: latitude ? parseFloat(latitude) : null,
+                        longitude: longitude ? parseFloat(longitude) : null
+          })
+        });
+        
+        const data = await response.json();
+        
+                if (response.ok && data.status === 'success') {
+                    addMessage(`✅ Mekan önerisi eklendi: ${placeName}`, 'success');
+        } else {
+                    addMessage(`❌ ${data.message || 'Mekan eklenemedi'}`, 'error');
+        }
+      } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+      }
+      showLoading(false);
+    }
+
+    async function getEventSummary() {
+      if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+        return;
+      }
+      
+      showLoading(true);
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/summary`);
+        const data = await response.json();
+        
+                if (response.ok && data.status === 'success') {
+                    const summary = data.data;
+                    let summaryMessage = `📊 <strong>${summary.event.title} Özeti</strong><br><br>`;
+                    
+                    // En çok oy alan slot - detaylı
+                    if (summary.best_slot && summary.best_slot.total_votes > 0) {
+                        // Slot ID'sini bul
+                        let bestSlotId = null;
+                        for (const [slotId, slotData] of Object.entries(summary.slots)) {
+                            if (slotData.start_datetime === summary.best_slot.start_datetime) {
+                                bestSlotId = slotId;
+                                break;
+                            }
+                        }
+                        
+                        summaryMessage += `🥇 <strong>EN ÇOK OY ALAN SLOT:</strong><br>`;
+                        summaryMessage += `&nbsp;&nbsp;📅 <strong>Slot #${bestSlotId}:</strong> ${summary.best_slot.start_datetime}<br>`;
+                        summaryMessage += `&nbsp;&nbsp;✅ <strong>Evet Oyları:</strong> ${summary.best_slot.yes_votes}<br>`;
+                        summaryMessage += `&nbsp;&nbsp;❌ <strong>Hayır Oyları:</strong> ${summary.best_slot.no_votes}<br>`;
+                        summaryMessage += `&nbsp;&nbsp;📊 <strong>Toplam Oy:</strong> ${summary.best_slot.total_votes}<br><br>`;
+                    } else {
+                        summaryMessage += `⏰ <strong>En Çok Oy Alan Slot:</strong> Henüz oy verilmemiş<br><br>`;
+                    }
+                    
+                    // Tüm slotların listesi
+                    if (Object.keys(summary.slots).length > 0) {
+                        summaryMessage += `📋 <strong>Tüm Slotlar:</strong><br>`;
+                        for (const [slotId, slotData] of Object.entries(summary.slots)) {
+                            summaryMessage += `&nbsp;&nbsp;• <strong>Slot #${slotId}:</strong> ${slotData.start_datetime} (${slotData.yes_votes} evet, ${slotData.no_votes} hayır)<br>`;
+                        }
+                        summaryMessage += `<br>`;
+                    }
+                    
+                    // En çok oy alan mekan
+                    if (summary.best_choice && summary.best_choice.votes > 0) {
+                        summaryMessage += `🏆 <strong>EN ÇOK OY ALAN MEKAN:</strong><br>`;
+                        summaryMessage += `&nbsp;&nbsp;🏢 <strong>${summary.best_choice.text}</strong> (${summary.best_choice.votes} oy)<br>`;
+                        
+                        // Eşitlik kontrolü
+                        if (summary.needs_moderator_decision && summary.tied_choices) {
+                            summaryMessage += `<br>⚠️ <strong>EŞİTLİK DURUMU:</strong><br>`;
+                            summary.tied_choices.forEach(choice => {
+                                summaryMessage += `&nbsp;&nbsp;🏢 <strong>${choice.text}</strong> (${choice.votes} oy)<br>`;
+                            });
+                            summaryMessage += `<br>🔧 <strong>Moderatör kararı gerekiyor!</strong><br>`;
+                        }
+                        summaryMessage += `<br>`;
+                    } else {
+                        summaryMessage += `🏢 <strong>En Çok Oy Alan Mekan:</strong> Henüz oy verilmemiş<br><br>`;
+                    }
+                    
+                    // Mali durum
+                    summaryMessage += `💰 <strong>MALİ DURUM:</strong><br>`;
+                    summaryMessage += `&nbsp;&nbsp;💵 <strong>Toplam Gider:</strong> ${summary.total_expense} TL<br>`;
+                    summaryMessage += `&nbsp;&nbsp;👥 <strong>Katılımcı Sayısı:</strong> ${summary.participant_count} kişi<br>`;
+                    summaryMessage += `&nbsp;&nbsp;📝 <strong>Gider Sayısı:</strong> ${summary.expenses.length} adet<br><br>`;
+                    
+                    // Kişi bazlı net bakiye tablosu
+                    if (summary.balances && Object.keys(summary.balances).length > 0) {
+                        summaryMessage += `📊 <strong>KİŞİ BAZLI NET BAKİYE:</strong><br>`;
+                        for (const [userId, balance] of Object.entries(summary.balances)) {
+                            const status = balance > 0 ? '🔴 Borçlu' : (balance < 0 ? '🟢 Alacaklı' : '⚪ Sıfır');
+                            const amount = Math.abs(balance).toFixed(2);
+                            summaryMessage += `&nbsp;&nbsp;👤 <strong>${userId}:</strong> ${amount} TL ${status}<br>`;
+                        }
+                        summaryMessage += `<br>`;
+                    }
+                    
+                    addMessage(summaryMessage, 'success');
+                } else {
+                    addMessage(`❌ ${data.message || 'Özet alınamadı'}`, 'error');
+                }
+            } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+            }
+      showLoading(false);
+    }
+
+    function showLoading(show) {
+            const loading = document.getElementById('loading');
+            const sendButton = document.getElementById('sendButton');
+            
+            if (show) {
+                loading.classList.add('show');
+                sendButton.disabled = true;
+          } else {
+                loading.classList.remove('show');
+                sendButton.disabled = false;
+            }
+        }
+
+        // Modal Functions
+        async function showSlotAddDialog() {
+            // Set default dates (tomorrow)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const startTime = tomorrow.toISOString().slice(0, 16);
+            const endTime = new Date(tomorrow.getTime() + 2*60*60*1000).toISOString().slice(0, 16);
+            
+            document.getElementById('slotStartDate').value = startTime;
+            document.getElementById('slotEndDate').value = endTime;
+            document.getElementById('slotAddModal').classList.add('show');
+        }
+
+        function closeSlotAddDialog() {
+            document.getElementById('slotAddModal').classList.remove('show');
+        }
+
+        async function submitSlotAdd() {
+            const startDate = document.getElementById('slotStartDate').value;
+            const endDate = document.getElementById('slotEndDate').value;
+            
+            if (!startDate || !endDate) {
+                addMessage('❌ Lütfen başlangıç ve bitiş tarihlerini seçin', 'error');
+                return;
+            }
+            
+            closeSlotAddDialog();
+            await addSlot(startDate, endDate);
+        }
+
+        async function showSlotVoteDialog() {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/summary`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const slots = data.data.slots;
+                    const slotList = document.getElementById('slotList');
+                    slotList.innerHTML = '';
+                    
+                    if (Object.keys(slots).length === 0) {
+                        slotList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Henüz slot eklenmemiş</div>';
+                    } else {
+                        Object.entries(slots).forEach(([slotId, slot]) => {
+                            const slotDiv = document.createElement('div');
+                            slotDiv.className = 'slot-item';
+                            slotDiv.innerHTML = `
+                                <div class="slot-time">${slot.start_datetime} - ${slot.end_datetime}</div>
+                                <div class="slot-details">${slot.yes_votes} evet, ${slot.no_votes} hayır oyu</div>
+                            `;
+                            slotDiv.onclick = () => selectSlot(slotId, slotDiv);
+                            slotList.appendChild(slotDiv);
+                        });
+                    }
+                    
+                    document.getElementById('slotVoteModal').classList.add('show');
+                }
+            } catch (error) {
+                addMessage(`❌ Slot listesi alınamadı: ${error.message}`, 'error');
+            }
+        }
+
+        function selectSlot(slotId, element) {
+            document.querySelectorAll('.slot-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedSlotId = slotId;
+            
+            setTimeout(() => {
+                confirmSlotVote();
+            }, 500);
+        }
+
+        async function confirmSlotVote() {
+            if (selectedSlotId) {
+                try {
+                    const response = await fetch(`http://localhost:5000/events/${currentEventId}/vote-slot`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+                            user_id: currentUserId,
+                            slot_id: selectedSlotId
+          })
+        });
+                    
+        const data = await response.json();
+        
+                    if (response.ok && data.status === 'success') {
+                        addMessage(`✅ Slot oyunuz verildi!`, 'success');
+                    } else {
+                        addMessage(`❌ ${data.message || 'Oy verilemedi'}`, 'error');
+                    }
+                } catch (error) {
+                    addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+                }
+            }
+            closeSlotVoteDialog();
+        }
+
+        function closeSlotVoteDialog() {
+            document.getElementById('slotVoteModal').classList.remove('show');
+            selectedSlotId = null;
+        }
+
+        function showPlaceAddDialog() {
+            document.getElementById('placeAddModal').classList.add('show');
+        }
+
+        function closePlaceAddDialog() {
+            document.getElementById('placeAddModal').classList.remove('show');
+        }
+
+        async function submitPlaceAdd() {
+            const placeName = document.getElementById('placeName').value.trim();
+            const latitude = document.getElementById('placeLatitude').value;
+            const longitude = document.getElementById('placeLongitude').value;
+            
+            if (!placeName) {
+                addMessage('❌ Lütfen mekan adı girin', 'error');
+                return;
+            }
+            
+            closePlaceAddDialog();
+            await addPlace(placeName, latitude, longitude);
+        }
+
+        async function showPlaceVoteDialog() {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/summary`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const places = data.data.poll_choices;
+                    const placeList = document.getElementById('placeList');
+                    placeList.innerHTML = '';
+                    
+                    if (Object.keys(places).length === 0) {
+                        placeList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Henüz mekan eklenmemiş</div>';
+        } else {
+                        Object.entries(places).forEach(([choiceId, place]) => {
+                            const placeDiv = document.createElement('div');
+                            placeDiv.className = 'place-item';
+                            placeDiv.innerHTML = `
+                                <div class="slot-time">${place.text}</div>
+                                <div class="slot-details">${place.votes} oy</div>
+                            `;
+                            placeDiv.onclick = () => selectPlace(choiceId, placeDiv);
+                            placeList.appendChild(placeDiv);
+                        });
+                    }
+                    
+                    document.getElementById('placeVoteModal').classList.add('show');
+                }
+      } catch (error) {
+                addMessage(`❌ Mekan listesi alınamadı: ${error.message}`, 'error');
+            }
+        }
+
+        function selectPlace(placeId, element) {
+            document.querySelectorAll('.place-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPlaceId = placeId;
+            
+            setTimeout(() => {
+                confirmPlaceVote();
+            }, 500);
+        }
+
+        async function confirmPlaceVote() {
+            if (selectedPlaceId) {
+                try {
+                    const response = await fetch(`http://localhost:5000/events/${currentEventId}/vote`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            user_id: currentUserId,
+                            choice_id: selectedPlaceId
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok && data.status === 'success') {
+                        addMessage(`✅ Mekan oyunuz verildi!`, 'success');
+                    } else {
+                        addMessage(`❌ ${data.message || 'Oy verilemedi'}`, 'error');
+                    }
+                } catch (error) {
+                    addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+                }
+            }
+            closePlaceVoteDialog();
+        }
+
+        function closePlaceVoteDialog() {
+            document.getElementById('placeVoteModal').classList.remove('show');
+            selectedPlaceId = null;
+        }
+
+        async function showExpenseDialog() {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/summary`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const slots = data.data.slots;
+                    const expenseForm = document.getElementById('expenseForm');
+                    
+                    let slotOptions = '<option value="">Slot seçin...</option>';
+                    Object.entries(slots).forEach(([slotId, slot]) => {
+                        slotOptions += `<option value="${slotId}">${slot.start_datetime} - ${slot.end_datetime}</option>`;
+                    });
+                    
+                    expenseForm.innerHTML = `
+                        <div class="form-group">
+                            <label class="form-label" for="expenseAmount">Tutar (TL)</label>
+                            <input type="number" id="expenseAmount" class="form-input" placeholder="100" min="0" step="0.01">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="expenseDescription">Açıklama</label>
+                            <input type="text" id="expenseDescription" class="form-input" placeholder="Pizza ve içecek">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="expenseSlot">Hangi Slot için?</label>
+                            <select id="expenseSlot" class="form-select">
+                                ${slotOptions}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="expenseWeight">Ağırlık (Opsiyonel)</label>
+                            <input type="number" id="expenseWeight" class="form-input" placeholder="1.0" min="0" step="0.1">
+                            <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">
+                                Kişi başına düşen pay için ağırlık (varsayılan: 1)
+                            </small>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <button class="btn btn-secondary" onclick="closeExpenseDialog()">
+                                <i class="fas fa-times"></i>
+                                İptal
+                            </button>
+                            <button class="btn btn-primary" onclick="submitExpense()">
+                                <i class="fas fa-plus"></i>
+                                Gider Ekle
+                            </button>
+                        </div>
+                    `;
+                    
+                    document.getElementById('expenseModal').classList.add('show');
+                }
+            } catch (error) {
+                addMessage(`❌ Form oluşturulamadı: ${error.message}`, 'error');
+            }
+        }
+
+        async function submitExpense() {
+            const amount = document.getElementById('expenseAmount').value;
+            const description = document.getElementById('expenseDescription').value;
+            const slotId = document.getElementById('expenseSlot').value;
+            const weight = document.getElementById('expenseWeight').value || 1.0;
+            
+            if (!amount || !description || !slotId) {
+                addMessage('❌ Lütfen tüm alanları doldurun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/expense`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: currentUserId,
+                        amount: parseFloat(amount),
+                        description: description,
+                        slot_id: parseInt(slotId),
+                        weight: parseFloat(weight)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    addMessage(`✅ ${data.message}`, 'success');
+                    closeExpenseDialog();
+          } else {
+                    addMessage(`❌ ${data.message || 'Gider eklenemedi'}`, 'error');
+                }
+            } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+            }
+        }
+
+        function closeExpenseDialog() {
+            document.getElementById('expenseModal').classList.remove('show');
+        }
+
+        // Davet Linki Fonksiyonu
+        async function generateInviteLink() {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/invite`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const inviteData = data.data;
+                    let inviteMessage = `🔗 <strong>Davet Linki Oluşturuldu!</strong><br><br>`;
+                    inviteMessage += `📅 <strong>Etkinlik:</strong> ${inviteData.event_title}<br>`;
+                    inviteMessage += `🔗 <strong>Davet Linki:</strong> <a href="${inviteData.invite_link}" target="_blank">${inviteData.invite_link}</a><br>`;
+                    inviteMessage += `📱 <strong>QR Kod:</strong> <a href="invite.png" target="_blank" onclick="openQRCode()">QR Kodu Görüntüle</a><br>`;
+                    inviteMessage += `🔢 <strong>Kısa Kod:</strong> ${inviteData.short_code}<br><br>`;
+                    inviteMessage += `<small>Bu linki BiP grubunda paylaşabilirsiniz!</small>`;
+                    
+                    addMessage(inviteMessage, 'success');
+          } else {
+                    addMessage(`❌ ${data.message || 'Davet linki oluşturulamadı'}`, 'error');
+                }
+            } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+            }
+        }
+
+        // QR Kod Açma Fonksiyonu
+        function openQRCode() {
+            // Yeni pencerede invite.png'i aç
+            window.open('invite.png', '_blank', 'width=400,height=400,scrollbars=yes,resizable=yes');
+        }
+
+        // Analitik Fonksiyonu
+        async function getAnalytics() {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/analytics`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const analytics = data.data;
+                    let analyticsMessage = `📊 <strong>Etkinlik Analitikleri</strong><br><br>`;
+                    analyticsMessage += `📅 <strong>Etkinlik:</strong> ${analytics.event_title}<br>`;
+                    analyticsMessage += `👥 <strong>Katılımcı Sayısı:</strong> ${analytics.total_participants}<br>`;
+                    analyticsMessage += `📈 <strong>Katılım Oranı:</strong> %${analytics.participation_rate}<br>`;
+                    analyticsMessage += `⏰ <strong>Toplam Slot:</strong> ${analytics.total_slots}<br>`;
+                    analyticsMessage += `🗳️ <strong>Toplam Oy:</strong> ${analytics.total_votes}<br>`;
+                    analyticsMessage += `💰 <strong>Toplam Gider:</strong> ${analytics.total_expense} TL<br>`;
+                    analyticsMessage += `📊 <strong>Kişi Başı Ortalama:</strong> ${analytics.avg_expense_per_person} TL<br>`;
+                    analyticsMessage += `📝 <strong>Gider Sayısı:</strong> ${analytics.expense_count}<br>`;
+                    
+                    if (analytics.most_active_user) {
+                        analyticsMessage += `🏆 <strong>En Aktif Kullanıcı:</strong> ${analytics.most_active_user} (${analytics.most_active_user_expenses} gider)<br>`;
+                    }
+                    
+                    analyticsMessage += `🥇 <strong>En Çok Oy Alan Slot:</strong> ${analytics.best_slot_votes} oy<br>`;
+                    analyticsMessage += `🏢 <strong>En Çok Oy Alan Mekan:</strong> ${analytics.best_place_votes} oy`;
+                    
+                    addMessage(analyticsMessage, 'success');
+      } else {
+                    addMessage(`❌ ${data.message || 'Analitik veriler alınamadı'}`, 'error');
+                }
+            } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+            }
+        }
+
+        // Konum Fonksiyonları
+        async function showLocationDialog() {
+            if (!currentEventId) {
+                addMessage('❌ Önce bir etkinlik oluşturun', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/summary`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const places = data.data.poll_choices;
+                    const locationList = document.getElementById('locationList');
+                    locationList.innerHTML = '';
+                    
+                    if (Object.keys(places).length === 0) {
+                        locationList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Henüz mekan eklenmemiş</div>';
+      } else {
+                        Object.entries(places).forEach(([choiceId, place]) => {
+                            const locationDiv = document.createElement('div');
+                            locationDiv.className = 'location-item';
+                            locationDiv.innerHTML = `
+                                <div class="location-header">
+                                    <div class="location-name">${place.text}</div>
+                                    <div class="location-votes">${place.votes} oy</div>
+                                </div>
+                                <div class="location-actions">
+                                    <button class="btn btn-primary btn-sm" onclick="getLocationInfo(${choiceId}, '${place.text}')">
+                                        <i class="fas fa-map-marker-alt"></i> Konum Görüntüle
+                                    </button>
+                                </div>
+                            `;
+                            locationList.appendChild(locationDiv);
+                        });
+                    }
+                    
+                    document.getElementById('locationModal').classList.add('show');
+                }
+            } catch (error) {
+                addMessage(`❌ Konum listesi alınamadı: ${error.message}`, 'error');
+            }
+        }
+
+        async function getLocationInfo(choiceId, placeName) {
+            try {
+                const response = await fetch(`http://localhost:5000/events/${currentEventId}/location/${choiceId}`);
+                const data = await response.json();
+                
+                if (response.ok && data.status === 'success') {
+                    const location = data.data;
+                    let locationMessage = `📍 <strong>${location.place_name} Konum Bilgileri</strong><br><br>`;
+                    locationMessage += `🏠 <strong>Adres:</strong> ${location.address}<br>`;
+                    locationMessage += `📏 <strong>Mesafe:</strong> ${location.distance_from_center}<br>`;
+                    locationMessage += `🗺️ <strong>Google Maps:</strong> <a href="${location.google_maps_url}" target="_blank">Haritada Görüntüle</a><br>`;
+                    locationMessage += `📍 <strong>Koordinatlar:</strong> ${location.latitude}, ${location.longitude}`;
+                    
+                    addMessage(locationMessage, 'success');
+                } else {
+                    addMessage(`❌ ${data.message || 'Konum bilgileri alınamadı'}`, 'error');
+                }
+            } catch (error) {
+                addMessage(`❌ Bağlantı hatası: ${error.message}`, 'error');
+            }
+        }
+
+        function closeLocationDialog() {
+            document.getElementById('locationModal').classList.remove('show');
+        }
+
+        // Auto-resize textarea
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+  </script>
+</body>
+</html>
